@@ -6,14 +6,16 @@ BEGIN { extends 'Catalyst::Controller::ActionRole' }
 
 __PACKAGE__->config(namespace => q{});
 
-sub viewa : Local Does('FindViewByIsa') FindViewByIsa('Example::View::A') {}
+sub viewa : Local Does('FindViewByIsa') FindViewByIsa('ExampleView::A') {}
 
-sub viewb : Local Does('FindViewByIsa') FindViewByIsa('Example::View::B') {}
+sub viewb : Local Does('FindViewByIsa') FindViewByIsa('ExampleView::B') {}
 
-sub override : Local Does('FindViewByIsa') FindViewByIsa('Example::View::A') {
+sub override : Local Does('FindViewByIsa') FindViewByIsa('ExampleView::A') {
     my ($self, $c) = @_;
     $c->stash->{current_view} = 'C';
 }
+
+sub index : Private {}
 
 sub end : ActionClass('RenderView') {}
 

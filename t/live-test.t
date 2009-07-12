@@ -2,18 +2,26 @@
 
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 # setup library path
 use FindBin qw($Bin);
 use lib "$Bin/lib";
 
-# make sure testapp works
-use ok 'TestApp';
-
 # a live test against TestApp, the test application
-use Test::WWW::Mechanize::Catalyst 'TestApp';
-my $mech = Test::WWW::Mechanize::Catalyst->new;
-$mech->get_ok('http://localhost/', 'get main page');
-$mech->content_like(qr/it works/i, 'see if it has our text');
+use Catalyst::Test 'TestApp';
+
+my ($res, $c);
+($res, $c) = ctx_request('/');
+is $c->res->body, 'Processed by view TestApp::View::D', 'Default ok';
+
+($res, $c) = ctx_request('/viewa');
+is $c->res->body, 'Processed by view TestApp::View::A', 'Find view A ok';
+
+($res, $c) = ctx_request('/viewb');
+is $c->res->body, 'Processed by view TestApp::View::B', 'Find view B ok';
+
+($res, $c) = ctx_request('/override');
+is $c->res->body, 'Processed by view TestApp::View::C',
+    '$c->stash->{current_view} set overrides';
 

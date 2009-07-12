@@ -21,10 +21,10 @@ after 'execute' => sub {
         $c->stash->{current_view} = $c->config->{default_view}
             if $view->isa($isa);
     }
-    my @views = grep { $_->isa($isa) } $c->views;
+    my @views = grep { $c->view($_)->isa($isa) } $c->views;
     die("$c does not have a view which is a subclass of $isa")
         unless scalar @views;
-    $views[0];
+    $c->stash->{current_view} = $views[0];
 };
 
 
