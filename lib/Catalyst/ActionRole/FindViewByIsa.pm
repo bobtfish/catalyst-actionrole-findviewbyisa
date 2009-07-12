@@ -8,7 +8,8 @@ sub BUILD { }
 after 'BUILD' => sub {
     my ($self, $args) = @_;
     my $attrs = $args->{attributes};
-    die("Catalyst::ActionRole::FindViewByIsa used without a FindViewByIsa attribute\n");
+    die("Catalyst::ActionRole::FindViewByIsa used without a FindViewByIsa attribute in /" . $self->reverse . "\n")
+        unless $attrs->{FindViewByIsa};
 };
 
 after 'execute' => sub {
