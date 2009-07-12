@@ -3,6 +3,8 @@ use Moose::Role;
 use List::MoreUtils qw/uniq/;
 use namespace::autoclean;
 
+our $VERSION = '0.0.000001';
+
 sub BUILD { }
 
 after 'BUILD' => sub {
@@ -39,6 +41,11 @@ Catalyst::ActionRole::FindViewByIsa - Select from the available application view
 
     BEGIN { extends 'Catalyst::Controller::ActionRole'; }
 
+    sub foo : Local Does('FindViewByIse') FindViewByIsa('Catalyst::View::TT') {
+        # Code here. If $c->stash->{current_view} is set, it will be left alone
+        #            after this method is run. Otherwise it will be set to
+        #            the first app view which @ISA Catalyst::View::TT
+    }
 
 =head1 DESCRIPTION
 
@@ -47,7 +54,20 @@ want to mandate the use of one type of view, but if you're providing templates w
 you need to be able to find a view of the appropriate type.
 
 Therefore this action role will select a the view in the application which
+matches the class of view that you want, no matter what it is named locally
+within the application.
+
+=head1 AUTHOR
+
+Tomas Doran (t0m), C<< <bobtfish@bobtfish.net> >>
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2009 Tomas Doran, some rights reserved.
+
+This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
 =cut
 
 1;
+
