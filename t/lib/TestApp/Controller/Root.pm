@@ -1,12 +1,20 @@
 package TestApp::Controller::Root;
-use strict;
-use warnings;
+use Moose;
+use namespace::autoclean;
+
+BEGIN { extends 'Catalyst::Controller::ActionRole' }
 
 __PACKAGE__->config(namespace => q{});
 
-use base 'Catalyst::Controller';
+sub viewa : Local Does('FindViewByIsa') FindViewByIsa('Example::View::A') {}
 
-# your actions replace this one
-sub main :Path { $_[1]->res->body('<h1>It works</h1>') }
+sub viewb : Local Does('FindViewByIsa') FindViewByIsa('Example::View::B') {}
+
+sub override : Local Does('FindViewByIsa') FindViewByIsa('Example::View::A') {
+    my ($self, $c) = @_;
+    $c->stash->{current_view} = 'C';
+}
+
+sub end : ActionClass('RenderView') {}
 
 1;
