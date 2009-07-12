@@ -3,4 +3,5 @@
 use strict;
 use warnings;
 use Test::More tests => 1;
-use ok 'Catalyst::ActionRole::FindViewByIsa';
+use_ok 'Catalyst::ActionRole::FindViewByIsa';
+
