@@ -6,7 +6,7 @@ license 'perl';
 
 test_requires 'Catalyst::Runtime' => '5.80';
 test_requires 'Catalyst::Controller::ActionRole';
-test_requires 'Catalyst::Action::Renderview';
+test_requires 'Catalyst::Action::RenderView';
 test_requires 'Test::More';
 
 resources repository => 'http://github.com/bobtfish/catalyst-actionrole-findviewbyisa';
