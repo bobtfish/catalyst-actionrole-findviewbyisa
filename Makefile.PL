@@ -9,6 +9,8 @@ test_requires 'Catalyst::Controller::ActionRole';
 test_requires 'Catalyst::Action::Renderview';
 test_requires 'Test::More';
 
+resources repository => 'http://github.com/bobtfish/catalyst-actionrole-findviewbyisa';
+
 if ($Module::Install::AUTHOR) {
     system("pod2text lib/Catalyst/ActionRole/FindViewByIsa.pm > README") and die;
 }
