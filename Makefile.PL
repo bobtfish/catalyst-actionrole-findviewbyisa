@@ -1,11 +1,15 @@
-use inc::Module::Install;
+use inc::Module::Install 0.91;
 
 name 'Catalyst-ActionRole-FindViewByIsa';
 all_from 'lib/Catalyst/ActionRole/FindViewByIsa.pm';
+license 'perl';
 
-build_requires 'Catalyst::Runtime';
-build_requires 'Test::WWW::Mechanize::Catalyst';
-build_requires 'Test::More';
-build_requires 'ok';
+test_requires 'Catalyst::Runtime';
+test_requires 'Test::More';
 
-WriteAll();
+if ($Module::Install::AUTHOR) {
+    system("pod2text lib/Catalyst/ActionRole/FindViewByIsa.pm > README") and die;
+}
+
+WriteAll;
+

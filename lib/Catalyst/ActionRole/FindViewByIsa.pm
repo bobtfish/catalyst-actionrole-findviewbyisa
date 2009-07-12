@@ -1,10 +1,51 @@
 package Catalyst::ActionRole::FindViewByIsa;
-use strict;
-use warnings;
+use Moose::Role;
+use List::MoreUtils qw/uniq/;
+use namespace::autoclean;
+
+sub BUILD { }
+
+after 'BUILD' => sub {
+    my ($self, $args) = @_;
+    my $attrs = $args->{attributes};
+    die("Catalyst::ActionRole::FindViewByIsa used without a FindViewByIsa attribute\n");
+};
+
+after 'execute' => sub {
+    my ($self, $controller, $c, @args ) = @_;
+    return if $c->stash->{current_view};
+    my $isa = $self->attributes->{FindViewByIsa}[0];
+    if ($c->config->{default_view}) {
+        my $view = $c->view($c->config->{default_view});
+        $c->stash->{current_view} = $c->config->{default_view}
+            if $view->isa($isa);
+    }
+    my @views = grep { $_->isa($isa) } $c->views;
+    die("$c does not have a view which is a subclass of $isa")
+        unless scalar @views;
+    $views[0];
+};
+
 
 =head1 NAME
 
-Catalyst::ActionRole::FindViewByIsa - 
+Catalyst::ActionRole::FindViewByIsa - Select from the available application views by type
+
+=head1 SYNOPSIS
+
+    package MyApp::Controller::Foo;
+    use Moose;
+
+    BEGIN { extends 'Catalyst::Controller::ActionRole'; }
+
+
+=head1 DESCRIPTION
+
+If you are trying to write a generic controller component which will be reused within an application, you do not
+want to mandate the use of one type of view, but if you're providing templates with your component, then
+you need to be able to find a view of the appropriate type.
+
+Therefore this action role will select a the view in the application which
 
 =cut
 
