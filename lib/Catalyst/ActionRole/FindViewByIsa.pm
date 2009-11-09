@@ -3,7 +3,7 @@ use Moose::Role;
 use List::MoreUtils qw/uniq/;
 use namespace::autoclean;
 
-our $VERSION = '0.000002';
+our $VERSION = '0.000003';
 
 sub BUILD { }
 
