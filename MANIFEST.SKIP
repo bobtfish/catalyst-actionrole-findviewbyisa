@@ -1,3 +1,4 @@
+^Catalyst-ActionRole-FindViewByIsa-.*
 .gitignore$
 .git/
 blib
